@@ -768,10 +768,25 @@
     if (currentScreen === 1) {
       startPresentation();
     } else if (currentScreen < totalScreens) {
+      isTransitioning = true;
       switchScreen(currentScreen + 1);
+      setTimeout(function() { isTransitioning = false; }, 550);
     } else if (currentScreen === totalScreens) {
       finishAndClose();
     }
+  }
+
+  function goBack() {
+    if (isTransitioning || currentScreen <= 1) return;
+    isTransitioning = true;
+
+    if (currentScreen === 2) {
+      const envBox = document.getElementById("envelope-trigger");
+      envBox.classList.remove("opening");
+    }
+
+    switchScreen(currentScreen - 1);
+    setTimeout(function() { isTransitioning = false; }, 550);
   }
 
   function switchScreen(next) {
@@ -798,7 +813,7 @@
 
     setTimeout(function() {
       isTransitioning = false;
-    }, 500);
+    }, 550);
   }
 
   function finishAndClose() {
@@ -823,7 +838,7 @@
     }, 650);
   }
 
-  // GESTOS TÁCTILES: DERECHA A IZQUIERDA O ARRIBA HACIA ABAJO
+  // GESTOS TÁCTILES HORIZONTALES ÚNICAMENTE (Sin gestos verticales)
   let startX = 0;
   let startY = 0;
 
@@ -843,31 +858,24 @@
     const diffX = endX - startX;
     const diffY = endY - startY;
 
-    // 1. Deslizar de derecha a izquierda
-    if (diffX < -40 && Math.abs(diffX) > Math.abs(diffY)) {
-      advanceNext();
-      return;
-    }
-
-    // 2. Deslizar de abajo hacia arriba (diffY negativo)
-    if (diffY < -45 && Math.abs(diffY) > Math.abs(diffX)) {
-      if (currentScreen === 2) {
-        const scrollArea = document.getElementById("letter-scroll-area");
-        if (scrollArea) {
-          const isAtBottom = scrollArea.scrollHeight - scrollArea.scrollTop - scrollArea.clientHeight <= 5;
-          if (!isAtBottom) {
-            return;
-          }
-        }
+    // Solo responde si el movimiento es claramente horizontal
+    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        // Derecha a izquierda -> Avanzar
+        advanceNext();
+      } else {
+        // Izquierda a derecha -> Retroceder
+        goBack();
       }
-      advanceNext();
     }
   }, { passive: true });
 
-  // NAVEGACIÓN CON TECLA FLECHA DERECHA EN PC
+  // NAVEGACIÓN CON TECLADO EN PC (Flecha derecha avanza, Flecha izquierda retrocede)
   document.addEventListener("keydown", function(e) {
     if (e.key === "ArrowRight") {
       advanceNext();
+    } else if (e.key === "ArrowLeft") {
+      goBack();
     }
   });
 </script>
