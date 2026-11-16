@@ -26,6 +26,13 @@
     font-display: swap;
     src: url('cormorant.woff2') format('woff2');
   }
+    @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('cormorant-italic.woff2') format('woff2');
+  }
 </style>
 <style>
   * {
@@ -252,12 +259,13 @@
   }
 
   .letter-body p:first-child::first-letter {
-    font-family: 'Great Vibes', cursive;
-    font-size: 52px;
-    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 46px;
+    font-weight: 700;
     color: #9e4756;
-    line-height: 0.7;
-    margin-right: 3px;
+    line-height: 0.75;
+    margin-right: 4px;
   }
 
   .letter-footer {
