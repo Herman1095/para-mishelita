@@ -103,20 +103,22 @@
     transform: translateX(-45px);
   }
 
-  /* PANTALLA 1: SOBRE CERRADO CON TEXTO EN SOLAPA */
+  /* PANTALLA 1: SOBRE CERRADO INCLINADO Y FLOTANTE */
   .envelope-container {
+    --tilt: -8deg;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     cursor: pointer;
+    transform: rotate(var(--tilt));
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
     animation: floatEnvelope 3.2s ease-in-out infinite;
   }
-
+  
   .envelope-container.opening {
     animation: none;
-    transform: scale(1.12) translateY(-15px);
+    transform: rotate(-4deg) scale(1.12) translateY(-15px);
     opacity: 0;
   }
 
@@ -150,12 +152,13 @@
   }
 
   @keyframes floatEnvelope {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-7px); }
+    0%, 100% { transform: rotate(var(--tilt)) translateY(0px); }
+    50% { transform: rotate(var(--tilt)) translateY(-7px); }
   }
 
 
-
+  /* BLOQUE 2 DE CÓDIGO */
+  
   .paper-canvas {
     position: relative;
     width: 92%;
@@ -467,6 +470,7 @@
   }
 
   .envelope-back-card {
+    --tilt: -8deg;
     width: 92%;
     max-width: 340px;
     aspect-ratio: 1.18 / 1;
@@ -477,8 +481,15 @@
     align-items: center;
     text-align: center;
     overflow: visible;
+    transform: rotate(var(--tilt));
+    animation: floatFarewell 4.2s ease-in-out infinite;
   }
-
+  
+  @keyframes floatFarewell {
+    0%, 100% { transform: rotate(var(--tilt)) translateY(0px); }
+    50% { transform: rotate(var(--tilt)) translateY(-4px); }
+  }
+  
   .farewell-line1 {
     font-family: 'Great Vibes', cursive;
     font-size: 34px;
