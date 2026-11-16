@@ -221,19 +221,19 @@
     overscroll-behavior-y: contain;
     touch-action: pan-y;
     font-family: 'Courgette', cursive;
-    font-size: 16.5px;
-    line-height: 1.58;
+    font-size: 18px;
+    line-height: 1.54;
     color: #3a2d28;
     padding: 0 4px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 13px;
+    gap: 12px;
   }
 
   .letter-body p:first-child::first-letter {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 42px;
+    font-size: 48px;
     font-weight: 700;
     color: #9e4756;
     float: left;
@@ -824,12 +824,15 @@
       return;
     }
 
-    // 2. Deslizar de arriba hacia abajo
-    if (diffY > 45 && Math.abs(diffY) > Math.abs(diffX)) {
+    // 2. Deslizar de abajo hacia arriba (diffY negativo)
+    if (diffY < -45 && Math.abs(diffY) > Math.abs(diffX)) {
       if (currentScreen === 2) {
         const scrollArea = document.getElementById("letter-scroll-area");
-        if (scrollArea && scrollArea.scrollTop > 5) {
-          return;
+        if (scrollArea) {
+          const isAtBottom = scrollArea.scrollHeight - scrollArea.scrollTop - scrollArea.clientHeight <= 5;
+          if (!isAtBottom) {
+            return;
+          }
         }
       }
       advanceNext();
