@@ -26,7 +26,7 @@
     font-display: swap;
     src: url('cormorant.woff2') format('woff2');
   }
-    @font-face {
+  @font-face {
     font-family: 'Cormorant Garamond';
     font-style: italic;
     font-weight: 700;
@@ -115,7 +115,7 @@
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
     animation: floatEnvelope 3.2s ease-in-out infinite;
   }
-  
+
   .envelope-container.opening {
     animation: none;
     transform: rotate(-4deg) scale(1.12) translateY(-15px);
@@ -156,9 +156,7 @@
     50% { transform: rotate(var(--tilt)) translateY(-7px); }
   }
 
-
-  /* BLOQUE 2 DE CÓDIGO */
-  
+  /* LIENZO DE PAPEL BASE */
   .paper-canvas {
     position: relative;
     width: 92%;
@@ -177,6 +175,7 @@
     overflow: hidden;
   }
 
+  /* PANTALLA 2: CARTA */
   .letter-sheet {
     height: 82dvh;
     max-height: 620px;
@@ -306,6 +305,7 @@
     filter: drop-shadow(0 3px 6px rgba(0,0,0,0.28));
   }
 
+  /* PANTALLAS 3 A 7: FOTOS */
   .photo-wrapper {
     width: 88%;
     max-width: 330px;
@@ -321,6 +321,7 @@
     display: block;
   }
 
+  /* PANTALLA 8: FECHA Y CONTADOR */
   .date-sheet {
     height: 82dvh;
     max-height: 620px;
@@ -438,7 +439,7 @@
     text-transform: uppercase;
     margin-bottom: 14px;
   }
-  
+
   .date-gold-bl {
     position: absolute;
     bottom: 8px;
@@ -459,6 +460,140 @@
     pointer-events: none;
   }
 
+  /* PANTALLA 9: NUESTRA CANCIÓN (TOCADISCOS Y PERGAMINO) */
+  .song-screen-layout {
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    max-height: 88dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 4dvh;
+    gap: 10px;
+  }
+
+  .turntable-stage {
+    position: relative;
+    width: min(80vw, 41dvh, 320px);
+    aspect-ratio: 1 / 1;
+    margin-top: 10dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .vinyl-disc {
+    position: relative;
+    left: -6%;
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    display: block;
+    cursor: pointer;
+    border-radius: 50%;
+    filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.6));
+    animation: spinVinyl 7s linear infinite;
+    animation-play-state: paused;
+    will-change: transform;
+  }
+
+  .vinyl-disc.playing {
+    animation-play-state: running;
+  }
+
+  @keyframes spinVinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* CABEZAL: proporción nativa 54x323 px y eje en x=26 (48.15%), y=30 (9.29%) */
+  .tonearm-img {
+    position: absolute;
+    top: -4%;
+    right: -2%;
+    height: 80%;
+    width: auto;
+    aspect-ratio: 54 / 323;
+    transform-origin: 48.15% 9.29%;
+    transform: rotate(0deg);
+    transition: transform 0.85s cubic-bezier(0.35, 0.05, 0.25, 1);
+    pointer-events: none;
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.55));
+    z-index: 4;
+  }
+
+  .tonearm-img.engaged {
+    transform: rotate(22deg);
+  }
+
+  .song-parchment {
+    width: 92%;
+    max-width: 345px;
+    min-height: 25dvh;
+    max-height: 31dvh;
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    gap: 6px;
+  }
+
+  .song-line1 {
+    width: 100%;
+    text-align: left;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(11px, 3vw, 13px);
+    font-weight: 700;
+    letter-spacing: 2.6px;
+    color: #9e4756;
+    text-transform: uppercase;
+  }
+
+  .song-line2 {
+    width: 100%;
+    text-align: left;
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(32px, 8.8vw, 42px);
+    color: #2f231f;
+    line-height: 1.08;
+    margin: 2px 0;
+  }
+
+  .song-line3 {
+    font-family: 'Courgette', cursive;
+    font-size: clamp(13.5px, 3.8vw, 16px);
+    color: #4a3731;
+    line-height: 1.4;
+    max-width: 100%;
+  }
+
+  .song-gold-tl {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 44px;
+    height: auto;
+    pointer-events: none;
+    opacity: 0.88;
+  }
+
+  .song-gold-br {
+    position: absolute;
+    bottom: 7px;
+    right: 7px;
+    width: 44px;
+    height: auto;
+    transform: rotate(180deg);
+    pointer-events: none;
+    opacity: 0.88;
+  }
+
+  /* PANTALLA 10: DESPEDIDA FINAL */
   .farewell-wrapper {
     width: 100%;
     height: 100%;
@@ -484,12 +619,12 @@
     transform: rotate(var(--tilt));
     animation: floatFarewell 4.2s ease-in-out infinite;
   }
-  
+
   @keyframes floatFarewell {
     0%, 100% { transform: rotate(var(--tilt)) translateY(0px); }
     50% { transform: rotate(var(--tilt)) translateY(-4px); }
   }
-  
+
   .farewell-line1 {
     font-family: 'Great Vibes', cursive;
     font-size: 34px;
@@ -571,12 +706,10 @@
 </style>
 </head>
 
-
-
-
 <body>
 <div id="carta-app">
   <audio id="bg-music" src="audio.mp3" loop preload="auto"></audio>
+  <audio id="our-song" src="cancion.mp3" loop preload="auto"></audio>
 
   <div class="screen active" id="screen-1">
     <div class="envelope-container" id="envelope-trigger" onclick="startPresentation()">
@@ -605,7 +738,7 @@
       <div class="letter-body" id="letter-scroll-area">
         <p>Escribo esto despacio, como quien acomoda flores en una mesa puesta solo para dos.</p>
         <p>No necesito una ocasión para decirte cuánto te amo; lo hago en las mañanas tranquilas, cuando la luz apenas entra y tú todavía estás ahí, cerca.</p>
-        <p>Gracias por quedarte, por elegirme, por hacer que lo cotidiano brille.</p> 
+        <p>Gracias por quedarte, por elegirme, por hacer que lo cotidiano brille.</p>
         <p>Esta carta es pequeña, pero el sentimiento es enorme...</p>
       </div>
 
@@ -675,6 +808,23 @@
   </div>
 
   <div class="screen" id="screen-9">
+    <div class="song-screen-layout">
+      <div class="turntable-stage">
+        <img class="vinyl-disc" id="vinyl-disc" src="vinil.webp" alt="Disco de vinilo" onclick="handleVinylTap()">
+        <img class="tonearm-img" id="tonearm-img" src="cabezal.webp" alt="Cabezal del tocadiscos">
+      </div>
+
+      <div class="paper-canvas song-parchment">
+        <img class="song-gold-tl" src="gold-corner.webp" alt="">
+        <img class="song-gold-br" src="gold-corner.webp" alt="">
+        <div class="song-line1">PARA ANGELITA</div>
+        <div class="song-line2">Nuestra canción</div>
+        <div class="song-line3">Hay cosas que solo una canción puede decir</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-10">
     <div class="farewell-wrapper">
       <div class="paper-canvas envelope-back-card">
         <div class="farewell-line1">Con amor,</div>
@@ -693,12 +843,27 @@
   <p>Ya puedes cerrar esta ventana.</p>
 </div>
 
-
-
-
-
 <script>
   const music = document.getElementById("bg-music");
+  const ourSong = document.getElementById("our-song");
+  const vinylDisc = document.getElementById("vinyl-disc");
+  const tonearmImg = document.getElementById("tonearm-img");
+
+  const BG_DEFAULT_VOLUME = 0.9;
+  const SONG_DEFAULT_VOLUME = 0.9;
+
+  music.volume = BG_DEFAULT_VOLUME;
+  ourSong.volume = SONG_DEFAULT_VOLUME;
+
+  let isAudioSwitching = false;
+  let activeFadeTimer = null;
+
+  function clearAudioFade() {
+    if (activeFadeTimer) {
+      clearInterval(activeFadeTimer);
+      activeFadeTimer = null;
+    }
+  }
 
   function calculateRelationshipTime() {
     const start = new Date(2023, 10, 27);
@@ -724,17 +889,35 @@
       months += 12;
     }
 
-    const txtYears = years === 1 ? "1 año" : years + " años";
-    const txtMonths = months === 1 ? "1 mes" : months + " meses";
-    const txtDays = days === 1 ? "1 día" : days + " días";
+    const parts = [];
+    if (years > 0) {
+      parts.push(years === 1 ? "1 año" : years + " años");
+    }
+    if (months > 0) {
+      parts.push(months === 1 ? "1 mes" : months + " meses");
+    }
+    if (days > 0) {
+      parts.push(days === 1 ? "1 día" : days + " días");
+    }
 
-    document.getElementById("calc-ymd").innerText = txtYears + ", " + txtMonths + " y " + txtDays;
+    let formattedText = "";
+    if (parts.length === 0) {
+      formattedText = "Hoy comienza nuestra historia";
+    } else if (parts.length === 1) {
+      formattedText = parts[0];
+    } else if (parts.length === 2) {
+      formattedText = parts.slice(0, 1).join("") + " y " + parts.slice(1, 2).join("");
+    } else {
+      formattedText = parts.slice(0, 2).join(", ") + " y " + parts.slice(2, 3).join("");
+    }
+
+    document.getElementById("calc-ymd").innerText = formattedText;
   }
 
   calculateRelationshipTime();
 
   let currentScreen = 1;
-  const totalScreens = 9;
+  const totalScreens = 10;
   let isTransitioning = false;
 
   function enterFullScreen() {
@@ -748,18 +931,122 @@
     }
   }
 
+  function playExclusiveTrackWithFadeIn(trackToPlay, targetVolume, onComplete) {
+    clearAudioFade();
+
+    const otherTrack = trackToPlay === music ? ourSong : music;
+    if (!otherTrack.paused) {
+      otherTrack.pause();
+    }
+
+    const safeTarget = Math.min(1, Math.max(0.1, targetVolume));
+    trackToPlay.volume = 0;
+
+    const startFade = function() {
+      const step = Math.max(0.05, safeTarget / 12);
+      activeFadeTimer = setInterval(function() {
+        if (trackToPlay.volume + step < safeTarget) {
+          trackToPlay.volume = Math.min(safeTarget, Number((trackToPlay.volume + step).toFixed(3)));
+        } else {
+          clearAudioFade();
+          trackToPlay.volume = safeTarget;
+          if (onComplete) onComplete();
+        }
+      }, 70);
+    };
+
+    const playPromise = trackToPlay.play();
+    if (playPromise !== undefined) {
+      playPromise.then(function() {
+        startFade();
+      }).catch(function() {
+        trackToPlay.load();
+        trackToPlay.play().then(function() {
+          startFade();
+        }).catch(function() {
+          trackToPlay.volume = safeTarget;
+          if (onComplete) onComplete();
+        });
+      });
+    } else {
+      startFade();
+    }
+  }
+
+  function fadeOutAndStopTrack(track, restoreVolume, onComplete) {
+    clearAudioFade();
+
+    if (track.paused) {
+      track.volume = restoreVolume;
+      if (onComplete) onComplete();
+      return;
+    }
+
+    const startVol = track.volume > 0 ? track.volume : restoreVolume;
+    const step = Math.max(0.05, startVol / 10);
+    activeFadeTimer = setInterval(function() {
+      if (track.volume > step) {
+        track.volume = Math.max(0, Number((track.volume - step).toFixed(3)));
+      } else {
+        clearAudioFade();
+        track.volume = 0;
+        track.pause();
+        track.volume = restoreVolume;
+        if (onComplete) onComplete();
+      }
+    }, 80);
+  }
+
+  function handleVinylTap() {
+    if (isAudioSwitching) return;
+
+    const isBgPlaying = !music.paused;
+    const isSongPlaying = !ourSong.paused;
+
+    if (isBgPlaying) {
+      isAudioSwitching = true;
+      const previousBgVolume = music.volume > 0 ? music.volume : BG_DEFAULT_VOLUME;
+
+      // Mueve el cabezal hacia el vinil mientras disminuye audio.mp3
+      tonearmImg.classList.add("engaged");
+
+      fadeOutAndStopTrack(music, previousBgVolume, function() {
+        playExclusiveTrackWithFadeIn(ourSong, SONG_DEFAULT_VOLUME, function() {
+          isAudioSwitching = false;
+        });
+        vinylDisc.classList.add("playing");
+      });
+    } else if (isSongPlaying) {
+      isAudioSwitching = true;
+      const previousSongVolume = ourSong.volume > 0 ? ourSong.volume : SONG_DEFAULT_VOLUME;
+
+      // Pausa el giro manteniendo el ángulo actual y regresa el cabezal
+      vinylDisc.classList.remove("playing");
+      tonearmImg.classList.remove("engaged");
+
+      fadeOutAndStopTrack(ourSong, previousSongVolume, function() {
+        playExclusiveTrackWithFadeIn(music, BG_DEFAULT_VOLUME, function() {
+          isAudioSwitching = false;
+        });
+      });
+    } else {
+      // Si ninguna estaba sonando, inicia cancion.mp3 con fade in y anima el tocadiscos
+      isAudioSwitching = true;
+      tonearmImg.classList.add("engaged");
+      setTimeout(function() {
+        playExclusiveTrackWithFadeIn(ourSong, SONG_DEFAULT_VOLUME, function() {
+          isAudioSwitching = false;
+        });
+        vinylDisc.classList.add("playing");
+      }, 450);
+    }
+  }
+
   function startPresentation() {
     if (isTransitioning || currentScreen !== 1) return;
     isTransitioning = true;
 
-    music.volume = 0.9;
-    const playPromise = music.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(function() {
-        music.load();
-        music.play().catch(function() {});
-      });
-    }
+    playExclusiveTrackWithFadeIn(music, BG_DEFAULT_VOLUME);
 
     setTimeout(function() {
       enterFullScreen();
@@ -788,13 +1075,8 @@
   }
 
   function goBack() {
-    if (isTransitioning || currentScreen <= 1) return;
+    if (isTransitioning || currentScreen <= 2) return;
     isTransitioning = true;
-
-    if (currentScreen === 2) {
-      const envBox = document.getElementById("envelope-trigger");
-      envBox.classList.remove("opening");
-    }
 
     switchScreen(currentScreen - 1);
     setTimeout(function() { isTransitioning = false; }, 550);
@@ -817,10 +1099,7 @@
     if (isTransitioning) return;
     isTransitioning = true;
 
-    const envBox = document.getElementById("envelope-trigger");
-    envBox.classList.remove("opening");
-
-    switchScreen(1);
+    switchScreen(2);
 
     setTimeout(function() {
       isTransitioning = false;
@@ -831,14 +1110,13 @@
     if (isTransitioning) return;
     isTransitioning = true;
 
-    const fadeOut = setInterval(function() {
-      if (music.volume > 0.1) {
-        music.volume = Math.max(0, music.volume - 0.15);
-      } else {
-        clearInterval(fadeOut);
-        music.pause();
-      }
-    }, 100);
+    const activeTrack = !ourSong.paused ? ourSong : music;
+    const restoreVol = activeTrack === ourSong ? SONG_DEFAULT_VOLUME : BG_DEFAULT_VOLUME;
+
+    fadeOutAndStopTrack(activeTrack, restoreVol, function() {
+      ourSong.pause();
+      music.pause();
+    });
 
     setTimeout(function() {
       if (document.fullscreenElement) {
@@ -846,7 +1124,7 @@
       }
       document.getElementById("closed-overlay").style.display = "flex";
       window.close();
-    }, 650);
+    }, 900);
   }
 
   // GESTOS TÁCTILES HORIZONTALES ÚNICAMENTE (Sin gestos verticales)
