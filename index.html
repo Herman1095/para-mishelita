@@ -572,6 +572,14 @@
     max-width: 100%;
   }
 
+  .song-line4 {
+    font-family: 'Courgette', cursive;
+    font-size: clamp(13.5px, 3.8vw, 16px);
+    color: #4a3731;
+    line-height: 1.4;
+    max-width: 100%;
+  }
+
   .song-gold-tl {
     position: absolute;
     top: 7px;
@@ -593,10 +601,20 @@
     opacity: 0.88;
   }
 
-  /* PANTALLA 10: ETIQUETA RAMO DE RAZONES (100% CÓDIGO) */
-#screen-10 {
+  /* PANTALLA 10: ETIQUETA RAMO DE RAZONES + RAMO SUPERIOR */
+  #screen-10 {
     justify-content: flex-end;
     padding-bottom: 3dvh;
+  }
+
+  .reasons-tag-shadow {
+    width: 92%;
+    max-width: 345px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58));
   }
 
   .reasons-bouquet-top {
@@ -609,24 +627,14 @@
     filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.42));
   }
 
-  .reasons-tag-shadow {
-    width: 92%;
-    max-width: 345px;
-    display: flex; 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58));
-  }
-
   .reasons-tag-card {
     position: relative;
     width: 100%;
-    max-height: 74dvh;
-    padding: 46px 22px 22px 22px;
+    max-height: 82dvh;
+    padding: 40px 22px 24px 22px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     background-color: #f6efe6;
     background-image:
       radial-gradient(rgba(165, 140, 115, 0.14) 1px, transparent 0),
@@ -679,7 +687,6 @@
     font-style: italic;
     font-weight: 700;
     font-size: clamp(20px, 5.5vw, 23.5px);
-    margin-top: 4px;
     color: #9e4756;
     line-height: 1.2;
     text-align: left;
@@ -800,13 +807,6 @@
     line-height: 1.4;
   }
 
-  .farewell-line4 {
-    font-family: 'Courgette', cursive;
-    font-size: 15.5px;
-    color: #4a3731;
-    line-height: 1.4;
-  }
-
   .farewell-seal {
     position: absolute;
     bottom: 10px;
@@ -878,13 +878,13 @@
 
 <body>
 <div id="carta-app">
-  <audio id="bg-music" loop preload="none"></audio>
-  <audio id="our-song" loop preload="none"></audio>
+  <audio id="bg-music" src="audio.mp3" loop preload="auto"></audio>
+  <audio id="our-song" src="cancion.mp3" loop preload="none"></audio>
 
   <div class="screen active" id="screen-1">
     <div class="envelope-container" id="envelope-trigger" onclick="startPresentation()">
       <div class="envelope-box">
-        <img class="envelope-img" data-src="sobre.webp" alt="Sobre de carta cerrado">
+        <img class="envelope-img" src="sobre.webp" alt="Sobre de carta cerrado">
         <div class="envelope-flap-text">
           <span>Una carta para:</span>
           <span>Mishelita...</span>
@@ -895,10 +895,10 @@
 
   <div class="screen" id="screen-2">
     <div class="paper-canvas letter-sheet">
-      <img class="corner-gold-tl" data-src="gold-corner.webp" alt="">
-      <img class="corner-floral-tr" data-src="floral-corner.webp" alt="">
-      <img class="corner-floral-bl" data-src="floral-corner.webp" alt="">
-      <img class="corner-gold-br" data-src="gold-corner.webp" alt="">
+      <img class="corner-gold-tl" src="gold-corner.webp" alt="">
+      <img class="corner-floral-tr" src="floral-corner.webp" alt="">
+      <img class="corner-floral-bl" src="floral-corner.webp" alt="">
+      <img class="corner-gold-br" src="gold-corner.webp" alt="">
 
       <div>
         <div class="letter-header">UNA CARTA PARA TI</div>
@@ -917,38 +917,38 @@
           <span class="with-love">Con amor,</span>
           <span class="author-name">Yonhatan</span>
         </div>
-        <img class="letter-wax-seal" data-src="sello.webp" alt="Sello">
+        <img class="letter-wax-seal" src="sello.webp" alt="Sello">
       </div>
     </div>
   </div>
 
   <div class="screen" id="screen-3">
     <div class="photo-wrapper">
-      <img class="photo-card" data-src="foto1.webp" alt="Recuerdo 1">
+      <img class="photo-card" src="foto1.webp" alt="Recuerdo 1">
     </div>
   </div>
 
   <div class="screen" id="screen-4">
     <div class="photo-wrapper">
-      <img class="photo-card" data-src="foto2.webp" alt="Recuerdo 2">
+      <img class="photo-card" src="foto2.webp" alt="Recuerdo 2">
     </div>
   </div>
 
   <div class="screen" id="screen-5">
     <div class="photo-wrapper">
-      <img class="photo-card" data-src="foto3.webp" alt="Recuerdo 3">
+      <img class="photo-card" src="foto3.webp" alt="Recuerdo 3">
     </div>
   </div>
 
   <div class="screen" id="screen-6">
     <div class="photo-wrapper">
-      <img class="photo-card" data-src="foto4.webp" alt="Recuerdo 4">
+      <img class="photo-card" src="foto4.webp" alt="Recuerdo 4">
     </div>
   </div>
 
   <div class="screen" id="screen-7">
     <div class="photo-wrapper">
-      <img class="photo-card" data-src="foto5.webp" alt="Recuerdo 5">
+      <img class="photo-card" src="foto5.webp" alt="Recuerdo 5">
     </div>
   </div>
 
@@ -957,7 +957,7 @@
       <div class="date-top-title">NOVIEMBRE · 2023</div>
 
       <div class="sakura-wrapper">
-        <img class="sakura-img" data-src="sakura.webp" alt="Corona de flores">
+        <img class="sakura-img" src="sakura.webp" alt="Corona de flores">
         <div class="day-number-center">27</div>
       </div>
 
@@ -972,31 +972,31 @@
         <div class="total-days-label">DÍAS JUNTOS</div>
       </div>
 
-      <img class="date-gold-bl" data-src="gold-corner.webp" alt="">
-      <img class="date-gold-br" data-src="gold-corner.webp" alt="">
+      <img class="date-gold-bl" src="gold-corner.webp" alt="">
+      <img class="date-gold-br" src="gold-corner.webp" alt="">
     </div>
   </div>
 
   <div class="screen" id="screen-9">
     <div class="song-screen-layout">
       <div class="turntable-stage">
-        <img class="vinyl-disc" id="vinyl-disc" data-src="vinil.webp" alt="Disco de vinilo" onclick="handleVinylTap()">
-        <img class="tonearm-img" id="tonearm-img" data-src="cabezal.webp" alt="Cabezal del tocadiscos">
+        <img class="vinyl-disc" id="vinyl-disc" src="vinil.webp" alt="Disco de vinilo" onclick="handleVinylTap()">
+        <img class="tonearm-img" id="tonearm-img" src="cabezal.webp" alt="Cabezal del tocadiscos">
       </div>
 
       <div class="paper-canvas song-parchment">
-        <img class="song-gold-tl" data-src="gold-corner.webp" alt="">
-        <img class="song-gold-br" data-src="gold-corner.webp" alt="">
+        <img class="song-gold-tl" src="gold-corner.webp" alt="">
+        <img class="song-gold-br" src="gold-corner.webp" alt="">
         <div class="song-line1">PARA MISHEL</div>
         <div class="song-line2">Nuestra canción</div>
-        <div class="song-line3">Hay cosas que solo una canción puede decir.</div>
+        <div class="song-line3">Porque hay cosas que solo una canción puede decir.</div>
       </div>
     </div>
   </div>
 
   <div class="screen" id="screen-10">
     <div class="reasons-tag-shadow">
-      <img class="reasons-bouquet-top" data-src="ramo.webp" alt="Ramo de flores">
+      <img class="reasons-bouquet-top" src="ramo.webp" alt="Ramo de flores">
       <div class="reasons-tag-card">
         <span class="tag-eyelet" aria-hidden="true"></span>
         <div class="reasons-kicker">RAMO DE RAZONES</div>
@@ -1041,7 +1041,7 @@
           <div class="farewell-line3">Con cada flor, un te quiero,</div>
           <div class="farewell-line4">un te amo.</div>
         </div>
-        <img class="farewell-logo" data-src="logo-black.webp" alt="Monograma">
+        <img class="farewell-logo" src="logo-black.webp" alt="Monograma">
       </div>
 
       <button class="replay-btn" onclick="restartPresentation()">Volver a leer</button>
@@ -1068,193 +1068,6 @@
 
   let isAudioSwitching = false;
   let activeFadeTimer = null;
-
-  /* CARGA PRIORIZADA Y ESCALONADA ADAPTADA A 3G + CPU 6X */
-  const loadedUrls = new Set();
-  const inFlightUrls = new Map();
-  let bgMusicStartedLoading = false;
-  let screen2Started = false;
-  let photosPipelineStarted = false;
-  let finalStagesStarted = false;
-  let songLoaded = false;
-
-  function getBackgroundUrl() {
-    return window.matchMedia("(orientation: landscape) and (min-width: 700px)").matches
-      ? "fondo-pc.webp"
-      : "fondo.webp";
-  }
-
-  function decodeImgsForUrl(url) {
-    const imgs = Array.from(document.querySelectorAll('img[data-src="' + url + '"]'));
-    const tasks = imgs.map(function(img) {
-      if (!img.src) {
-        img.src = url;
-      }
-      if (typeof img.decode === "function") {
-        return img.decode().catch(function() {});
-      }
-      return Promise.resolve();
-    });
-    return Promise.all(tasks);
-  }
-
-  function loadImageAsset(url, shouldDecode) {
-    if (!url) return Promise.resolve();
-    if (loadedUrls.has(url)) {
-      return shouldDecode ? decodeImgsForUrl(url) : Promise.resolve();
-    }
-    if (inFlightUrls.has(url)) {
-      return inFlightUrls.get(url).then(function() {
-        return shouldDecode ? decodeImgsForUrl(url) : Promise.resolve();
-      });
-    }
-
-    const promise = new Promise(function(resolve) {
-      const loader = new Image();
-      loader.decoding = "async";
-
-      const finish = function() {
-        loadedUrls.add(url);
-        inFlightUrls.delete(url);
-        document.querySelectorAll('img[data-src="' + url + '"]').forEach(function(img) {
-          if (!img.src) {
-            img.src = url;
-          }
-        });
-        resolve();
-      };
-
-      loader.onload = finish;
-      loader.onerror = function() {
-        inFlightUrls.delete(url);
-        document.querySelectorAll('img[data-src="' + url + '"]').forEach(function(img) {
-          if (!img.src) {
-            img.src = url;
-          }
-        });
-        resolve();
-      };
-
-      loader.src = url;
-    });
-
-    inFlightUrls.set(url, promise);
-    return promise.then(function() {
-      return shouldDecode ? decodeImgsForUrl(url) : Promise.resolve();
-    });
-  }
-
-  function ensureBgMusicLoaded() {
-    if (bgMusicStartedLoading) return;
-    bgMusicStartedLoading = true;
-    music.preload = "auto";
-    if (!music.getAttribute("src")) {
-      music.src = "audio.mp3";
-    }
-    music.load();
-  }
-
-  function ensureOurSongLoaded() {
-    if (songLoaded) return;
-    songLoaded = true;
-    ourSong.preload = "auto";
-    if (!ourSong.getAttribute("src")) {
-      ourSong.src = "cancion.mp3";
-    }
-    ourSong.load();
-  }
-
-  function startFinalStages() {
-    if (finalStagesStarted) return;
-    finalStagesStarted = true;
-
-    // Etapa 4: recursos para pantalla de fecha (sakura.webp)
-    loadImageAsset("sakura.webp", false).then(function() {
-      // Etapa 5: recursos para vinil y despedida (vinil, cabezal.webp, logo-black.webp) y luego cancion.mp3
-      loadImageAsset("vinil.webp", false);
-      loadImageAsset("cabezal.webp", false);
-      loadImageAsset("logo-black.webp", false);
-      setTimeout(ensureOurSongLoaded, 400);
-    });
-  }
-
-  function startPhotosPipeline() {
-    if (photosPipelineStarted) return;
-    photosPipelineStarted = true;
-
-    // Etapa 3: descargar foto1 a foto5 en orden con pequeño colchón en red sin bloquear por decodificación pesada
-    const photos = ["foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp", "foto5.webp"];
-    let chain = Promise.resolve();
-    photos.forEach(function(photoUrl, index) {
-      chain = chain.then(function() {
-        return loadImageAsset(photoUrl, false);
-      }).then(function() {
-        if (index === photos.length - 1) {
-          startFinalStages();
-          return Promise.resolve();
-        }
-        return new Promise(function(resolve) {
-          setTimeout(resolve, 140);
-        });
-      });
-    });
-  }
-
-  function startScreen2AndPhotosStage() {
-    if (screen2Started) return;
-    screen2Started = true;
-
-    // Etapa 2: floral-corner y gold-corner (y sello), asegurar audio.mp3 y arrancar fotos con colchón
-    loadImageAsset("floral-corner.webp", false);
-    loadImageAsset("gold-corner.webp", false);
-    loadImageAsset("sello.webp", false);
-    ensureBgMusicLoaded();
-    startPhotosPipeline();
-  }
-
-  function prioritizeScreenForNavigation(screenIndex) {
-    if (screenIndex >= 2) {
-      startScreen2AndPhotosStage();
-    }
-    if (screenIndex >= 3 && screenIndex <= 7) {
-      const targetPhoto = "foto" + (screenIndex - 2) + ".webp";
-      const nextPhoto = screenIndex < 7 ? "foto" + (screenIndex - 1) + ".webp" : null;
-      loadImageAsset(targetPhoto, true);
-      if (nextPhoto) {
-        loadImageAsset(nextPhoto, false);
-      }
-    }
-    if (screenIndex >= 8) {
-      startFinalStages();
-      loadImageAsset("sakura.webp", true);
-    }
-    if (screenIndex >= 9) {
-      loadImageAsset("vinil.webp", true);
-      loadImageAsset("cabezal.webp", true);
-      ensureOurSongLoaded();
-    }
-    if (screenIndex >= 11) {
-      loadImageAsset("logo-black.webp", true);
-    }
-    if (screenIndex >= 10) {
-      loadImageAsset("ramo.webp", true);
-    }
-  }
-
-  // Etapa 1: prioridad estricta a recursos de Pantalla 1: sobre y luego fondo (sin esperar decode previo)
-  (function initStage1() {
-    const bgUrl = getBackgroundUrl();
-    const appEl = document.getElementById("carta-app");
-    appEl.style.backgroundImage = "none";
-
-    Promise.all([
-      loadImageAsset("sobre.webp", false),
-      loadImageAsset(bgUrl, false)
-    ]).then(function() {
-      appEl.style.backgroundImage = "url('" + bgUrl + "')";
-      setTimeout(ensureBgMusicLoaded, 200);
-    });
-  })();
 
   function clearAudioFade() {
     if (activeFadeTimer) {
@@ -1337,12 +1150,6 @@
       otherTrack.pause();
     }
 
-    if (trackToPlay === music) {
-      ensureBgMusicLoaded();
-    } else {
-      ensureOurSongLoaded();
-    }
-
     const safeTarget = Math.min(1, Math.max(0.1, targetVolume));
     trackToPlay.volume = 0;
 
@@ -1404,8 +1211,6 @@
   function handleVinylTap() {
     if (isAudioSwitching) return;
 
-    ensureOurSongLoaded();
-
     const isBgPlaying = !music.paused;
     const isSongPlaying = !ourSong.paused;
 
@@ -1452,7 +1257,6 @@
     if (isTransitioning || currentScreen !== 1) return;
     isTransitioning = true;
 
-    startScreen2AndPhotosStage();
     playExclusiveTrackWithFadeIn(music, BG_DEFAULT_VOLUME);
 
     setTimeout(function() {
@@ -1489,8 +1293,16 @@
     setTimeout(function() { isTransitioning = false; }, 550);
   }
 
+  let ourSongPreloadStarted = false;
+
+  function startOurSongPreload() {
+    if (ourSongPreloadStarted) return;
+    ourSongPreloadStarted = true;
+    ourSong.preload = "auto";
+    ourSong.load();
+  }
+
   function switchScreen(next) {
-    prioritizeScreenForNavigation(next);
     for (let i = 1; i <= totalScreens; i++) {
       const el = document.getElementById("screen-" + i);
       el.classList.remove("active", "passed");
@@ -1499,6 +1311,9 @@
       } else if (i === next) {
         el.classList.add("active");
       }
+      if (next >= 7) {
+    startOurSongPreload();
+  }
     }
     currentScreen = next;
   }
