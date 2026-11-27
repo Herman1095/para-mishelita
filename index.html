@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Una carta para Mishelita</title>
-<link id="preload-sobre" rel="preload" as="image" href="sobre.webp">
 <style>
   @font-face {
     font-family: 'Courgette';
@@ -657,6 +656,13 @@
     font-size: 15.5px;
     color: #4a3731;
     line-height: 1.4;
+
+  }
+  .farewell-line4 {
+    font-family: 'Courgette', cursive;
+    font-size: 15.5px;
+    color: #4a3731;
+    line-height: 1.4;
   }
 
   .farewell-seal {
@@ -730,7 +736,7 @@
 
 <body>
 <div id="carta-app">
-  <audio id="bg-music" src="audio.mp3" loop preload="auto"></audio>
+  <audio id="bg-music" loop preload="none"></audio>
   <audio id="our-song" loop preload="none"></audio>
 
   <div class="screen active" id="screen-1">
@@ -852,7 +858,8 @@
         <div class="farewell-text-group">
           <div class="farewell-line1">Con amor,</div>
           <div class="farewell-line2">Yonhatan</div>
-          <div class="farewell-line3">Con cada flor, un te quiero, un te amo.</div>
+          <div class="farewell-line3">Con cada flor, un te quiero,</div>
+          <div class="farewall-line4">un te amo.</div>
         </div>
         <img class="farewell-logo" data-src="logo-black.webp" alt="Monograma">
       </div>
@@ -882,10 +889,12 @@
   let isAudioSwitching = false;
   let activeFadeTimer = null;
 
-  /* ORDENADOR DE CARGA POR ETAPAS (SIN FILA RÍGIDA EN FOTOS Y CON CANCION.MP3 DIFERIDA) */
+  /* CARGA PRIORIZADA Y ESCALONADA ADAPTADA A 3G + CPU 6X */
   const loadedUrls = new Set();
   const inFlightUrls = new Map();
+  let bgMusicStartedLoading = false;
   let screen2Started = false;
+  let photosPipelineStarted = false;
   let finalStagesStarted = false;
   let songLoaded = false;
 
@@ -895,12 +904,29 @@
       : "fondo.webp";
   }
 
-  function loadImageAsset(url) {
-    if (!url || loadedUrls.has(url)) {
+  function decodeImgsForUrl(url) {
+    const imgs = Array.from(document.querySelectorAll('img[data-src="' + url + '"]'));
+    const tasks = imgs.map(function(img) {
+      if (!img.src) {
+        img.src = url;
+      }
+      if (typeof img.decode === "function") {
+        return img.decode().catch(function() {});
+      }
       return Promise.resolve();
+    });
+    return Promise.all(tasks);
+  }
+
+  function loadImageAsset(url, shouldDecode) {
+    if (!url) return Promise.resolve();
+    if (loadedUrls.has(url)) {
+      return shouldDecode ? decodeImgsForUrl(url) : Promise.resolve();
     }
     if (inFlightUrls.has(url)) {
-      return inFlightUrls.get(url);
+      return inFlightUrls.get(url).then(function() {
+        return shouldDecode ? decodeImgsForUrl(url) : Promise.resolve();
+      });
     }
 
     const promise = new Promise(function(resolve) {
@@ -915,11 +941,7 @@
             img.src = url;
           }
         });
-        if (typeof loader.decode === "function") {
-          loader.decode().catch(function() {}).finally(resolve);
-        } else {
-          resolve();
-        }
+        resolve();
       };
 
       loader.onload = finish;
@@ -937,22 +959,19 @@
     });
 
     inFlightUrls.set(url, promise);
-    return promise;
+    return promise.then(function() {
+      return shouldDecode ? decodeImgsForUrl(url) : Promise.resolve();
+    });
   }
 
-  function loadSequence(urls, gapMs) {
-    let chain = Promise.resolve();
-    urls.forEach(function(url, idx) {
-      chain = chain.then(function() {
-        return loadImageAsset(url);
-      }).then(function() {
-        if (!gapMs || idx === urls.length - 1) return Promise.resolve();
-        return new Promise(function(resolve) {
-          setTimeout(resolve, gapMs);
-        });
-      });
-    });
-    return chain;
+  function ensureBgMusicLoaded() {
+    if (bgMusicStartedLoading) return;
+    bgMusicStartedLoading = true;
+    music.preload = "auto";
+    if (!music.getAttribute("src")) {
+      music.src = "audio.mp3";
+    }
+    music.load();
   }
 
   function ensureOurSongLoaded() {
@@ -970,11 +989,34 @@
     finalStagesStarted = true;
 
     // Etapa 4: recursos para pantalla de fecha (sakura.webp)
-    loadImageAsset("sakura.webp").then(function() {
+    loadImageAsset("sakura.webp", false).then(function() {
       // Etapa 5: recursos para pantalla 10 (vinil, cabezal.webp, logo-black.webp) y luego cancion.mp3
-      return loadSequence(["vinil.webp", "cabezal.webp", "logo-black.webp"], 120);
-    }).then(function() {
-      setTimeout(ensureOurSongLoaded, 250);
+      loadImageAsset("vinil.webp", false);
+      loadImageAsset("cabezal.webp", false);
+      loadImageAsset("logo-black.webp", false);
+      setTimeout(ensureOurSongLoaded, 400);
+    });
+  }
+
+  function startPhotosPipeline() {
+    if (photosPipelineStarted) return;
+    photosPipelineStarted = true;
+
+    // Etapa 3: descargar foto1 a foto5 en orden con pequeño colchón en red sin bloquear por decodificación pesada
+    const photos = ["foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp", "foto5.webp"];
+    let chain = Promise.resolve();
+    photos.forEach(function(photoUrl, index) {
+      chain = chain.then(function() {
+        return loadImageAsset(photoUrl, false);
+      }).then(function() {
+        if (index === photos.length - 1) {
+          startFinalStages();
+          return Promise.resolve();
+        }
+        return new Promise(function(resolve) {
+          setTimeout(resolve, 140);
+        });
+      });
     });
   }
 
@@ -982,20 +1024,12 @@
     if (screen2Started) return;
     screen2Started = true;
 
-    // Etapa 2: floral-corner y gold-corner (y sello), luego asegurar audio.mp3
-    loadSequence(["floral-corner.webp", "gold-corner.webp", "sello.webp"], 80).then(function() {
-      if (music.readyState === 0) {
-        music.preload = "auto";
-        music.load();
-      }
-      // Etapa 3: foto1 a foto5 en orden con colchón (sin bloquear por fila estricta)
-      return loadSequence(
-        ["foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp", "foto5.webp"],
-        180
-      );
-    }).then(function() {
-      startFinalStages();
-    });
+    // Etapa 2: floral-corner y gold-corner (y sello), asegurar audio.mp3 y arrancar fotos con colchón
+    loadImageAsset("floral-corner.webp", false);
+    loadImageAsset("gold-corner.webp", false);
+    loadImageAsset("sello.webp", false);
+    ensureBgMusicLoaded();
+    startPhotosPipeline();
   }
 
   function prioritizeScreenForNavigation(screenIndex) {
@@ -1005,32 +1039,37 @@
     if (screenIndex >= 3 && screenIndex <= 7) {
       const targetPhoto = "foto" + (screenIndex - 2) + ".webp";
       const nextPhoto = screenIndex < 7 ? "foto" + (screenIndex - 1) + ".webp" : null;
-      loadImageAsset(targetPhoto).then(function() {
-        if (nextPhoto) loadImageAsset(nextPhoto);
-      });
+      loadImageAsset(targetPhoto, true);
+      if (nextPhoto) {
+        loadImageAsset(nextPhoto, false);
+      }
     }
     if (screenIndex >= 8) {
       startFinalStages();
-      loadImageAsset("sakura.webp");
+      loadImageAsset("sakura.webp", true);
     }
     if (screenIndex >= 9) {
-      loadSequence(["vinil.webp", "cabezal.webp"], 80).then(ensureOurSongLoaded);
+      loadImageAsset("vinil.webp", true);
+      loadImageAsset("cabezal.webp", true);
+      ensureOurSongLoaded();
     }
     if (screenIndex >= 10) {
-      loadImageAsset("logo-black.webp");
+      loadImageAsset("logo-black.webp", true);
     }
   }
 
-  // Etapa 1: prioridad estricta a recursos de Pantalla 1: sobre y luego fondo
+  // Etapa 1: prioridad estricta a recursos de Pantalla 1: sobre y luego fondo (sin esperar decode previo)
   (function initStage1() {
     const bgUrl = getBackgroundUrl();
     const appEl = document.getElementById("carta-app");
     appEl.style.backgroundImage = "none";
 
-    loadImageAsset("sobre.webp").then(function() {
-      return loadImageAsset(bgUrl);
-    }).then(function() {
+    Promise.all([
+      loadImageAsset("sobre.webp", false),
+      loadImageAsset(bgUrl, false)
+    ]).then(function() {
       appEl.style.backgroundImage = "url('" + bgUrl + "')";
+      setTimeout(ensureBgMusicLoaded, 200);
     });
   })();
 
@@ -1115,7 +1154,9 @@
       otherTrack.pause();
     }
 
-    if (trackToPlay === ourSong) {
+    if (trackToPlay === music) {
+      ensureBgMusicLoaded();
+    } else {
       ensureOurSongLoaded();
     }
 
