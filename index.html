@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Una carta para Mishelita</title>
+<link id="preload-sobre" rel="preload" as="image" href="sobre.webp">
 <style>
   @font-face {
     font-family: 'Courgette';
@@ -250,14 +251,14 @@
     overscroll-behavior-y: contain;
     touch-action: pan-y;
     font-family: 'Courgette', cursive;
-    font-size: 18px;
+    font-size: clamp(14px, 4.40vw, 17.5px);
     line-height: 1.54;
     color: #3a2d28;
     padding: 0 4px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
   }
 
   .letter-body p:first-child::first-letter {
@@ -547,7 +548,7 @@
     width: 100%;
     text-align: left;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(11px, 3vw, 13px);
+    font-size: clamp(13px, 3.6vw, 15.5px);
     font-weight: 700;
     letter-spacing: 2.6px;
     color: #9e4756;
@@ -558,7 +559,7 @@
     width: 100%;
     text-align: left;
     font-family: 'Great Vibes', cursive;
-    font-size: clamp(32px, 8.8vw, 42px);
+    font-size: clamp(27px, 7.6vw, 35px);
     color: #2f231f;
     line-height: 1.08;
     margin: 2px 0;
@@ -606,10 +607,11 @@
 
   .envelope-back-card {
     --tilt: -8deg;
+    position: relative;
     width: 92%;
     max-width: 340px;
     aspect-ratio: 1.18 / 1;
-    padding: 24px 20px;
+    padding: 20px 20px 76px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -618,6 +620,16 @@
     overflow: visible;
     transform: rotate(var(--tilt));
     animation: floatFarewell 4.2s ease-in-out infinite;
+  }
+
+  .farewell-text-group {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
   }
 
   @keyframes floatFarewell {
@@ -634,7 +646,7 @@
 
   .farewell-line2 {
     font-family: 'Great Vibes', cursive;
-    font-size: 44px;
+    font-size: 38px;
     color: #2f231f;
     margin: 2px 0 12px 0;
     line-height: 1.1;
@@ -642,18 +654,28 @@
 
   .farewell-line3 {
     font-family: 'Courgette', cursive;
-    font-size: 14.5px;
+    font-size: 15.5px;
     color: #4a3731;
     line-height: 1.4;
   }
 
   .farewell-seal {
     position: absolute;
-    bottom: -10px;
-    right: -6px;
+    bottom: 10px;
+    right: 10px;
     width: 54px;
     height: auto;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+  }
+
+  .farewell-logo { 
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: auto;
+    pointer-events: none;
   }
 
   .replay-btn {
@@ -709,12 +731,12 @@
 <body>
 <div id="carta-app">
   <audio id="bg-music" src="audio.mp3" loop preload="auto"></audio>
-  <audio id="our-song" src="cancion.mp3" loop preload="auto"></audio>
+  <audio id="our-song" loop preload="none"></audio>
 
   <div class="screen active" id="screen-1">
     <div class="envelope-container" id="envelope-trigger" onclick="startPresentation()">
       <div class="envelope-box">
-        <img class="envelope-img" src="sobre.webp" alt="Sobre de carta cerrado">
+        <img class="envelope-img" data-src="sobre.webp" alt="Sobre de carta cerrado">
         <div class="envelope-flap-text">
           <span>Una carta para:</span>
           <span>Mishelita...</span>
@@ -725,10 +747,10 @@
 
   <div class="screen" id="screen-2">
     <div class="paper-canvas letter-sheet">
-      <img class="corner-gold-tl" src="gold-corner.webp" alt="">
-      <img class="corner-floral-tr" src="floral-corner.webp" alt="">
-      <img class="corner-floral-bl" src="floral-corner.webp" alt="">
-      <img class="corner-gold-br" src="gold-corner.webp" alt="">
+      <img class="corner-gold-tl" data-src="gold-corner.webp" alt="">
+      <img class="corner-floral-tr" data-src="floral-corner.webp" alt="">
+      <img class="corner-floral-bl" data-src="floral-corner.webp" alt="">
+      <img class="corner-gold-br" data-src="gold-corner.webp" alt="">
 
       <div>
         <div class="letter-header">UNA CARTA PARA TI</div>
@@ -747,38 +769,38 @@
           <span class="with-love">Con amor,</span>
           <span class="author-name">Yonhatan</span>
         </div>
-        <img class="letter-wax-seal" src="sello.webp" alt="Sello">
+        <img class="letter-wax-seal" data-src="sello.webp" alt="Sello">
       </div>
     </div>
   </div>
 
   <div class="screen" id="screen-3">
     <div class="photo-wrapper">
-      <img class="photo-card" src="foto1.webp" alt="Recuerdo 1">
+      <img class="photo-card" data-src="foto1.webp" alt="Recuerdo 1">
     </div>
   </div>
 
   <div class="screen" id="screen-4">
     <div class="photo-wrapper">
-      <img class="photo-card" src="foto2.webp" alt="Recuerdo 2">
+      <img class="photo-card" data-src="foto2.webp" alt="Recuerdo 2">
     </div>
   </div>
 
   <div class="screen" id="screen-5">
     <div class="photo-wrapper">
-      <img class="photo-card" src="foto3.webp" alt="Recuerdo 3">
+      <img class="photo-card" data-src="foto3.webp" alt="Recuerdo 3">
     </div>
   </div>
 
   <div class="screen" id="screen-6">
     <div class="photo-wrapper">
-      <img class="photo-card" src="foto4.webp" alt="Recuerdo 4">
+      <img class="photo-card" data-src="foto4.webp" alt="Recuerdo 4">
     </div>
   </div>
 
   <div class="screen" id="screen-7">
     <div class="photo-wrapper">
-      <img class="photo-card" src="foto5.webp" alt="Recuerdo 5">
+      <img class="photo-card" data-src="foto5.webp" alt="Recuerdo 5">
     </div>
   </div>
 
@@ -787,7 +809,7 @@
       <div class="date-top-title">NOVIEMBRE · 2023</div>
 
       <div class="sakura-wrapper">
-        <img class="sakura-img" src="sakura.webp" alt="Corona de flores">
+        <img class="sakura-img" data-src="sakura.webp" alt="Corona de flores">
         <div class="day-number-center">27</div>
       </div>
 
@@ -802,24 +824,24 @@
         <div class="total-days-label">DÍAS JUNTOS</div>
       </div>
 
-      <img class="date-gold-bl" src="gold-corner.webp" alt="">
-      <img class="date-gold-br" src="gold-corner.webp" alt="">
+      <img class="date-gold-bl" data-src="gold-corner.webp" alt="">
+      <img class="date-gold-br" data-src="gold-corner.webp" alt="">
     </div>
   </div>
 
   <div class="screen" id="screen-9">
     <div class="song-screen-layout">
       <div class="turntable-stage">
-        <img class="vinyl-disc" id="vinyl-disc" src="vinil.webp" alt="Disco de vinilo" onclick="handleVinylTap()">
-        <img class="tonearm-img" id="tonearm-img" src="cabezal.webp" alt="Cabezal del tocadiscos">
+        <img class="vinyl-disc" id="vinyl-disc" data-src="vinil.webp" alt="Disco de vinilo" onclick="handleVinylTap()">
+        <img class="tonearm-img" id="tonearm-img" data-src="cabezal.webp" alt="Cabezal del tocadiscos">
       </div>
 
       <div class="paper-canvas song-parchment">
-        <img class="song-gold-tl" src="gold-corner.webp" alt="">
-        <img class="song-gold-br" src="gold-corner.webp" alt="">
-        <div class="song-line1">PARA ANGELITA</div>
+        <img class="song-gold-tl" data-src="gold-corner.webp" alt="">
+        <img class="song-gold-br" data-src="gold-corner.webp" alt="">
+        <div class="song-line1">PARA MISHEL</div>
         <div class="song-line2">Nuestra canción</div>
-        <div class="song-line3">Hay cosas que solo una canción puede decir</div>
+        <div class="song-line3">Hay cosas que solo una canción puede decir.</div>
       </div>
     </div>
   </div>
@@ -827,10 +849,12 @@
   <div class="screen" id="screen-10">
     <div class="farewell-wrapper">
       <div class="paper-canvas envelope-back-card">
-        <div class="farewell-line1">Con amor,</div>
-        <div class="farewell-line2">Yonhatan</div>
-        <div class="farewell-line3">Con cada flor, un te quiero, un te amo.</div>
-        <img class="farewell-seal" src="sello.webp" alt="Sello">
+        <div class="farewell-text-group">
+          <div class="farewell-line1">Con amor,</div>
+          <div class="farewell-line2">Yonhatan</div>
+          <div class="farewell-line3">Con cada flor, un te quiero, un te amo.</div>
+        </div>
+        <img class="farewell-logo" data-src="logo-black.webp" alt="Monograma">
       </div>
 
       <button class="replay-btn" onclick="restartPresentation()">Volver a leer</button>
@@ -857,6 +881,158 @@
 
   let isAudioSwitching = false;
   let activeFadeTimer = null;
+
+  /* ORDENADOR DE CARGA POR ETAPAS (SIN FILA RÍGIDA EN FOTOS Y CON CANCION.MP3 DIFERIDA) */
+  const loadedUrls = new Set();
+  const inFlightUrls = new Map();
+  let screen2Started = false;
+  let finalStagesStarted = false;
+  let songLoaded = false;
+
+  function getBackgroundUrl() {
+    return window.matchMedia("(orientation: landscape) and (min-width: 700px)").matches
+      ? "fondo-pc.webp"
+      : "fondo.webp";
+  }
+
+  function loadImageAsset(url) {
+    if (!url || loadedUrls.has(url)) {
+      return Promise.resolve();
+    }
+    if (inFlightUrls.has(url)) {
+      return inFlightUrls.get(url);
+    }
+
+    const promise = new Promise(function(resolve) {
+      const loader = new Image();
+      loader.decoding = "async";
+
+      const finish = function() {
+        loadedUrls.add(url);
+        inFlightUrls.delete(url);
+        document.querySelectorAll('img[data-src="' + url + '"]').forEach(function(img) {
+          if (!img.src) {
+            img.src = url;
+          }
+        });
+        if (typeof loader.decode === "function") {
+          loader.decode().catch(function() {}).finally(resolve);
+        } else {
+          resolve();
+        }
+      };
+
+      loader.onload = finish;
+      loader.onerror = function() {
+        inFlightUrls.delete(url);
+        document.querySelectorAll('img[data-src="' + url + '"]').forEach(function(img) {
+          if (!img.src) {
+            img.src = url;
+          }
+        });
+        resolve();
+      };
+
+      loader.src = url;
+    });
+
+    inFlightUrls.set(url, promise);
+    return promise;
+  }
+
+  function loadSequence(urls, gapMs) {
+    let chain = Promise.resolve();
+    urls.forEach(function(url, idx) {
+      chain = chain.then(function() {
+        return loadImageAsset(url);
+      }).then(function() {
+        if (!gapMs || idx === urls.length - 1) return Promise.resolve();
+        return new Promise(function(resolve) {
+          setTimeout(resolve, gapMs);
+        });
+      });
+    });
+    return chain;
+  }
+
+  function ensureOurSongLoaded() {
+    if (songLoaded) return;
+    songLoaded = true;
+    ourSong.preload = "auto";
+    if (!ourSong.getAttribute("src")) {
+      ourSong.src = "cancion.mp3";
+    }
+    ourSong.load();
+  }
+
+  function startFinalStages() {
+    if (finalStagesStarted) return;
+    finalStagesStarted = true;
+
+    // Etapa 4: recursos para pantalla de fecha (sakura.webp)
+    loadImageAsset("sakura.webp").then(function() {
+      // Etapa 5: recursos para pantalla 10 (vinil, cabezal.webp, logo-black.webp) y luego cancion.mp3
+      return loadSequence(["vinil.webp", "cabezal.webp", "logo-black.webp"], 120);
+    }).then(function() {
+      setTimeout(ensureOurSongLoaded, 250);
+    });
+  }
+
+  function startScreen2AndPhotosStage() {
+    if (screen2Started) return;
+    screen2Started = true;
+
+    // Etapa 2: floral-corner y gold-corner (y sello), luego asegurar audio.mp3
+    loadSequence(["floral-corner.webp", "gold-corner.webp", "sello.webp"], 80).then(function() {
+      if (music.readyState === 0) {
+        music.preload = "auto";
+        music.load();
+      }
+      // Etapa 3: foto1 a foto5 en orden con colchón (sin bloquear por fila estricta)
+      return loadSequence(
+        ["foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp", "foto5.webp"],
+        180
+      );
+    }).then(function() {
+      startFinalStages();
+    });
+  }
+
+  function prioritizeScreenForNavigation(screenIndex) {
+    if (screenIndex >= 2) {
+      startScreen2AndPhotosStage();
+    }
+    if (screenIndex >= 3 && screenIndex <= 7) {
+      const targetPhoto = "foto" + (screenIndex - 2) + ".webp";
+      const nextPhoto = screenIndex < 7 ? "foto" + (screenIndex - 1) + ".webp" : null;
+      loadImageAsset(targetPhoto).then(function() {
+        if (nextPhoto) loadImageAsset(nextPhoto);
+      });
+    }
+    if (screenIndex >= 8) {
+      startFinalStages();
+      loadImageAsset("sakura.webp");
+    }
+    if (screenIndex >= 9) {
+      loadSequence(["vinil.webp", "cabezal.webp"], 80).then(ensureOurSongLoaded);
+    }
+    if (screenIndex >= 10) {
+      loadImageAsset("logo-black.webp");
+    }
+  }
+
+  // Etapa 1: prioridad estricta a recursos de Pantalla 1: sobre y luego fondo
+  (function initStage1() {
+    const bgUrl = getBackgroundUrl();
+    const appEl = document.getElementById("carta-app");
+    appEl.style.backgroundImage = "none";
+
+    loadImageAsset("sobre.webp").then(function() {
+      return loadImageAsset(bgUrl);
+    }).then(function() {
+      appEl.style.backgroundImage = "url('" + bgUrl + "')";
+    });
+  })();
 
   function clearAudioFade() {
     if (activeFadeTimer) {
@@ -939,6 +1115,10 @@
       otherTrack.pause();
     }
 
+    if (trackToPlay === ourSong) {
+      ensureOurSongLoaded();
+    }
+
     const safeTarget = Math.min(1, Math.max(0.1, targetVolume));
     trackToPlay.volume = 0;
 
@@ -1000,6 +1180,8 @@
   function handleVinylTap() {
     if (isAudioSwitching) return;
 
+    ensureOurSongLoaded();
+
     const isBgPlaying = !music.paused;
     const isSongPlaying = !ourSong.paused;
 
@@ -1046,6 +1228,7 @@
     if (isTransitioning || currentScreen !== 1) return;
     isTransitioning = true;
 
+    startScreen2AndPhotosStage();
     playExclusiveTrackWithFadeIn(music, BG_DEFAULT_VOLUME);
 
     setTimeout(function() {
@@ -1083,6 +1266,7 @@
   }
 
   function switchScreen(next) {
+    prioritizeScreenForNavigation(next);
     for (let i = 1; i <= totalScreens; i++) {
       const el = document.getElementById("screen-" + i);
       el.classList.remove("active", "passed");
